@@ -7,7 +7,28 @@ import pandas as pd
 
 VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/rokfinance/data/"
 
-action = ['Tweet_from_db']
+
+def Tweet_type():
+    Joke_p = 00  # C0 - post a joke from jokeDB
+    Tweet_from_db_p = 100  # C1 - post an nft related tweet
+    Quote_p = 00  #
+    Tweet_and_media_p = 0  #
+    Meme_p = 00  # D1 -
+
+    action = \
+        ['Joke'] * Joke_p + \
+        ['Tweet_from_db'] * Tweet_from_db_p + \
+        ['Quote'] * Quote_p + \
+        ['Tweet_and_media'] * Tweet_and_media_p + \
+        ['Meme'] * Meme_p  # only media
+
+    action = random.choice(action)
+    return action
+
+
+action = Tweet_type()
+print('action:', action)
+
 
 auth = tweepy.OAuthHandler(config('consumer_key_RF'), config(
     'consumer_secret_RF'))

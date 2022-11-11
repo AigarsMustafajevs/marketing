@@ -4,23 +4,24 @@ import json
 import time
 from decouple import config
 import pandas as pd
+import os
 
 VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/kyle/data/"
 
 
 def Tweet_type():
     Joke_p = 00  # C0 - post a joke from jokeDB
-    Tweet_from_db_p = 100  # C1 - post an nft related tweet
-    Quote_p = 0  # C2 - post an inspirational/joke quote
+    Tweet_from_db_p = 0  # C1 - post an nft related tweet
+    Quote_p = 00  # C2 - post an inspirational/joke quote
     Tweet_and_media_p = 0  # D0 - BAYC related post with media
-    Meme_p = 0  # D1 - post a meme
+    Meme_p = 100  # D1 - post a meme
 
     action = \
         ['Joke'] * Joke_p + \
         ['Tweet_from_db'] * Tweet_from_db_p + \
         ['Quote'] * Quote_p + \
         ['Tweet_and_media'] * Tweet_and_media_p + \
-        ['Meme'] * Meme_p
+        ['Meme'] * Meme_p  # only media
 
     action = random.choice(action)
     return action
@@ -56,6 +57,30 @@ if action == 'Tweet_from_db':
     tweet_text = random.choice(xl["Tweet"])
     api.update_status(status=tweet_text)
 
+if action == 'Quote':
+    xl = pd.ExcelFile(
+        "{}/quotes.xlsx".format(VPS_DIRECTORY))
+    xl = xl.parse('batch1')
+    tweet_text = random.choice(xl["Quotes"])
+    api.update_status(status=tweet_text)
+
+if action == 'Meme':
+    back = os.getcwd()
+    r_hash = ["#jokes ", "#memes ", "#jokesoftheday ", "#humour "]
+    r_hash1 = ["#comedy ", "#lol ", "#fun ", "#memesdaily "]
+    r_hash2 = ["#meme ", "#lmao ", "#viral ", "#haha "]
+    # random izvelets tweets:
+    tweet_text = random.choice(r_hash), random.choice(
+        r_hash1), random.choice(r_hash2)
+    # random izvelets attels:
+    os.chdir("/Users/aigars/Desktop/rok-finance/marketing/kyle/data/media/memes")
+    tweet_photo = random.choice(os.listdir(
+        "/Users/aigars/Desktop/rok-finance/marketing/kyle/data/media/memes"))
+
+    api.update_status_with_media(status=tweet_text, filename=tweet_photo)
+
+    os.chdir(back)
+
 # if action == 'C2':
 #     # importing excel with quotes:
 #     # print(xl.sheet_names)
@@ -76,30 +101,17 @@ if action == 'Tweet_from_db':
 #     a.update_status_with_media(status=tweet_text, filename=tweet_photo)
 
 # if action == 'D1':
-#     back = os.getcwd()
-#     r_hash = ["#jokes ", "#memes ", "#jokesoftheday ", "#humour "]
-#     r_hash1 = ["#comedy ", "#lol ", "#fun ", "#memesdaily "]
-#     r_hash2 = ["#meme ", "#lmao ", "#viral ", "#haha "]
-#     # random izvelets tweets:
-#     tweet_text = random.choice(r_hash), random.choice(
-#         r_hash1), random.choice(r_hash2)
-#     os.chdir("./ACC_0/data/memes/")  # random izvelets attels:
-#     tweet_photo = random.choice(os.listdir(
-#         "/Users/amustafajevs/Desktop/Q/nft/nft_doomer/ACC_0/data/memes"))
+    # back = os.getcwd()
+    # r_hash = ["#jokes ", "#memes ", "#jokesoftheday ", "#humour "]
+    # r_hash1 = ["#comedy ", "#lol ", "#fun ", "#memesdaily "]
+    # r_hash2 = ["#meme ", "#lmao ", "#viral ", "#haha "]
+    # # random izvelets tweets:
+    # tweet_text = random.choice(r_hash), random.choice(
+    #     r_hash1), random.choice(r_hash2)
+    # os.chdir("./ACC_0/data/memes/")  # random izvelets attels:
+    # tweet_photo = random.choice(os.listdir(
+    #     "/Users/amustafajevs/Desktop/Q/nft/nft_doomer/ACC_0/data/memes"))
 
-#     a.update_status_with_media(status=tweet_text, filename=tweet_photo)
+    # api.update_status_with_media(status=tweet_text, filename=tweet_photo)
 
-#     os.chdir(back)
-
-# if action == 'E0':
-#     # random izvelets meklesanas vards:
-#     keywords = ["crypto", "bitcoin", "SpaceX", "Binance",
-#                 "CZ", "Elon Musk", "Vitalik Buterin", "ETH", "BTC"]
-#     tweets = searchTweets(random.choice(keywords), max_res=10)
-#     df_retweets = pd.DataFrame(tweets)
-
-#     # random izvelets tweets:
-#     rand_retw = random.randint(0, 9)
-#     retweet_this_id = df_retweets['id'].iloc[rand_retw]
-
-#     a.retweet(id=retweet_this_id)
+    # os.chdir(back)
