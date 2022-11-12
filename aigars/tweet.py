@@ -6,22 +6,22 @@ from decouple import config
 import pandas as pd
 import os
 
-VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/kyle/data/"
+VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/aigars/data/"
 
 
 def Tweet_type():
-    Joke_p = 00  # C0 - post a joke from jokeDB
+    Joke_p = 100  # C0 - post a joke from jokeDB
     Tweet_from_db_p = 0  # C1 - post an nft related tweet
     Quote_p = 00  # C2 - post an inspirational/joke quote
     Tweet_and_media_p = 0  # D0 - BAYC related post with media
-    Meme_p = 100  # D1 - post a meme
+    Meme_p = 00  # D1 - post a meme
 
     action = \
         ['Joke'] * Joke_p + \
         ['Tweet_from_db'] * Tweet_from_db_p + \
         ['Quote'] * Quote_p + \
-        ['Tweet_and_media'] * Tweet_and_media_p +  # not developed yet (depends on need)\
-    ['Meme'] * Meme_p  # only media
+        ['Tweet_and_media'] * Tweet_and_media_p + #not developed yet (depends on need)\ 
+        ['Meme'] * Meme_p  # only media
 
     action = random.choice(action)
     return action
@@ -30,10 +30,10 @@ def Tweet_type():
 action = Tweet_type()
 print('action:', action)
 
-auth = tweepy.OAuthHandler(config('consumer_key_KYLE'), config(
-    'consumer_secret_KYLE'))  # KYLE FOR TESTING
-auth.set_access_token(config('access_token_KYLE'), config(
-    'access_token_secret_KYLE'))  # KYLE FOR TESTING
+auth = tweepy.OAuthHandler(config('consumer_key_AM'), config(
+    'consumer_secret_AM'))  # KYLE FOR TESTING
+auth.set_access_token(config('access_token_AM'), config(
+    'access_token_secret_AM'))  # KYLE FOR TESTING
 
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
@@ -73,9 +73,9 @@ if action == 'Meme':
     tweet_text = random.choice(r_hash), random.choice(
         r_hash1), random.choice(r_hash2)
     # random izvelets attels:
-    os.chdir("/Users/aigars/Desktop/rok-finance/marketing/kyle/data/media/memes")
+    os.chdir("/Users/aigars/Desktop/rok-finance/marketing/aigars/data/media/memes")
     tweet_photo = random.choice(os.listdir(
-        "/Users/aigars/Desktop/rok-finance/marketing/kyle/data/media/memes"))
+        "/Users/aigars/Desktop/rok-finance/marketing/aigars/data/media/memes"))
 
     api.update_status_with_media(status=tweet_text, filename=tweet_photo)
 
