@@ -4,16 +4,16 @@ import json
 import time
 from decouple import config
 
-VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/kyle/data/"
+VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/roberts/data/"
 
 
 def getClient():
     client = tweepy.Client(
-        bearer_token=config('bearer_token_KYLE'),
-        consumer_key=config('consumer_key_KYLE'),
-        consumer_secret=config('consumer_secret_KYLE'),
-        access_token=config('access_token_KYLE'),
-        access_token_secret=config('access_token_secret_KYLE'))
+        bearer_token=config('bearer_token_RM'),
+        consumer_key=config('consumer_key_RM'),
+        consumer_secret=config('consumer_secret_RM'),
+        access_token=config('access_token_RM'),
+        access_token_secret=config('access_token_secret_RM'))
     return client
 
 

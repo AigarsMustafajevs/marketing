@@ -10,8 +10,8 @@ VPS_DIRECTORY = "/Users/aigars/Desktop/rok-finance/marketing/roberts/data/"
 
 
 def Tweet_type():
-    Joke_p = 100  # C0 - post a joke from jokeDB
-    Tweet_from_db_p = 0  # C1 - post an nft related tweet
+    Joke_p = 50  # C0 - post a joke from jokeDB
+    Tweet_from_db_p = 50  # C1 - post an nft related tweet
     Quote_p = 00  # C2 - post an inspirational/joke quote
     Tweet_and_media_p = 0  # D0 - BAYC related post with media
     Meme_p = 00  # D1 - post a meme
@@ -20,8 +20,8 @@ def Tweet_type():
         ['Joke'] * Joke_p + \
         ['Tweet_from_db'] * Tweet_from_db_p + \
         ['Quote'] * Quote_p + \
-        ['Tweet_and_media'] * Tweet_and_media_p +  # not developed yet (depends on need)\
-    ['Meme'] * Meme_p  # only media
+        ['Tweet_and_media'] * Tweet_and_media_p + \
+        ['Meme'] * Meme_p  # only media
 
     action = random.choice(action)
     return action
@@ -53,7 +53,7 @@ if action == 'Joke':
 if action == 'Tweet_from_db':
     xl = pd.ExcelFile(
         "{}/tweetsdb.xlsx".format(VPS_DIRECTORY))
-    xl = xl.parse('rokfinance')
+    xl = xl.parse('personal')
     tweet_text = random.choice(xl["Tweet"])
     api.update_status(status=tweet_text)
 
